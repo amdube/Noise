@@ -9,7 +9,10 @@
 
 #include "LightModel.h"
 #include "Renderer.h"
+#include "EventManager.h"
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 
 using namespace glm;
 
@@ -36,6 +39,14 @@ LightModel::~LightModel()
 void LightModel::Update(float dt)
 {
     Model::Update(dt);
+	static bool r_pressed = 0;
+	if(glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R) == GLFW_PRESS && !r_pressed){
+		r_pressed = 1;
+		setColor(glm::vec3(1.0f,0.0f,0.0f));
+	}
+	if(glfwGetKey(EventManager::GetWindow(), GLFW_KEY_R) == GLFW_RELEASE){
+		r_pressed = 0;
+	}
 }
 
 void LightModel::Draw()

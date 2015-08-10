@@ -34,6 +34,9 @@ public:
 	void SetPosition(glm::vec3 position);
 	void SetScaling(glm::vec3 scaling);
 	void SetRotation(glm::vec3 axis, float angleDegrees);
+	void setColor(glm::vec3 color){
+		mColor = color;
+	}
 
 	virtual glm::vec3 GetPosition() const;
 	virtual glm::vec3 GetColor() const;
