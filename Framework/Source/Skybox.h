@@ -13,10 +13,13 @@ This header defines the skybox class, which will help create a skybox for the sc
 class Skybox : public Model {
 
 	private:
+		int boxNum;
 		unsigned int mSkyBoxVertexArrayID;
 		unsigned int mSkyBoxVertexBufferID;
 		GLuint skyTextureID;
-
+		unsigned int mSkyBoxVertexArrayID2;
+		unsigned int mSkyBoxVertexBufferID2;
+		GLuint skyTextureID2;
 	public:
 		Skybox();
 		~Skybox();

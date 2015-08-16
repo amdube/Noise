@@ -12,6 +12,8 @@ Modified by: Francois Stelluti
 #include "World.h"
 #include "Camera.h"
 #include "TextureLoader.h"
+#include "EventManager.h"
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 
@@ -72,7 +74,9 @@ Skybox::Skybox() : Model() {
 
 	//Generate and bind the vertex buffer
 	glGenBuffers (1, &mSkyBoxVertexBufferID);
+
 	glBindBuffer (GL_ARRAY_BUFFER, mSkyBoxVertexBufferID);
+
 	//Each triangle (3) * (6 sides of a cube * (2 triangles each * 3 verts)) * the size of a float
 	glBufferData (GL_ARRAY_BUFFER, 3 * 36 * sizeof(float), cubeVerticies, GL_STATIC_DRAW);
 
@@ -80,6 +84,20 @@ Skybox::Skybox() : Model() {
 	skyTextureID = 1;
 	cubeMap("../Assets/Textures/negz.png","../Assets/Textures/posz.png","../Assets/Textures/negy.png", "../Assets/Textures/posy.png",
 			"../Assets/Textures/negx.png", "../Assets/Textures/posx.png", &skyTextureID);
+	
+	
+	glGenVertexArrays (1, &mSkyBoxVertexArrayID2);
+	glGenBuffers (1, &mSkyBoxVertexBufferID2);
+	glBindBuffer (GL_ARRAY_BUFFER, mSkyBoxVertexBufferID2);
+	glBufferData (GL_ARRAY_BUFFER, 3 * 36 * sizeof(float), cubeVerticies, GL_STATIC_DRAW);
+	skyTextureID2 = 1000;
+
+	cubeMap("../Assets/Textures/negz2.png","../Assets/Textures/posz.png","../Assets/Textures/negy.png", "../Assets/Textures/posy.png",
+		"../Assets/Textures/negx.png", "../Assets/Textures/posx2.png", &skyTextureID2);
+
+	boxNum = 1;
+
+
 
 }
 
@@ -92,6 +110,10 @@ Skybox::~Skybox()
 
 void Skybox::Update(float dt)
 {
+
+	if(glfwGetKey(EventManager::GetWindow(), GLFW_KEY_C) == GLFW_PRESS){
+
+	}
 	Model::Update(dt);
 }
 
@@ -127,9 +149,17 @@ void Skybox::Draw() {
 
     glUniformMatrix4fv(VPMatrixLocation, 1, GL_FALSE, &projectionM[0][0]);
 
+
+	if(boxNum = 0){
+
 	//Draw the vertex buffer
 	//Generate and bind the vertex array
 	glBindVertexArray (mSkyBoxVertexArrayID);
+	}
+	else{
+		glBindVertexArray (mSkyBoxVertexArrayID2);
+
+	}
 
 	//Use the Skybox shader
 	glUseProgram(Renderer::GetShaderProgramID());
@@ -158,21 +188,39 @@ void Skybox::Draw() {
 
 	}
 
-	glEnableVertexAttribArray (0);
-	glBindBuffer (GL_ARRAY_BUFFER, mSkyBoxVertexBufferID);
-	glVertexAttribPointer(0,			// attribute
-						3,				// size
-						GL_FLOAT,		// type
-						GL_FALSE,		// normalized?
-						0,				// stride
-						nullptr         // array buffer offset
-					);
+	if(boxNum = 0){
+		glEnableVertexAttribArray (0);
+		glBindBuffer (GL_ARRAY_BUFFER, mSkyBoxVertexBufferID);
+		glVertexAttribPointer(0,			// attribute
+							3,				// size
+							GL_FLOAT,		// type
+							GL_FALSE,		// normalized?
+							0,				// stride
+							nullptr         // array buffer offset
+						);
 
-	//Draw the cube!
-	glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices: 3 * 2 * 6 (3 per triangle, 2 triangles per face, 6 faces)
+		//Draw the cube!
+		glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices: 3 * 2 * 6 (3 per triangle, 2 triangles per face, 6 faces)
 
-	glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(0);
 
+	}
+	else{
+		glEnableVertexAttribArray (0);
+		glBindBuffer (GL_ARRAY_BUFFER, mSkyBoxVertexBufferID2);
+		glVertexAttribPointer(0,			// attribute
+							3,				// size
+							GL_FLOAT,		// type
+							GL_FALSE,		// normalized?
+							0,				// stride
+							nullptr         // array buffer offset
+						);
+
+		//Draw the cube!
+		glDrawArrays(GL_TRIANGLES, 0, 36); // 36 vertices: 3 * 2 * 6 (3 per triangle, 2 triangles per face, 6 faces)
+
+		glDisableVertexAttribArray(0);
+	}
 	//glDepthMask (GL_TRUE);
 
 	Renderer::CheckForErrors();

@@ -320,6 +320,7 @@ void World::Update(float dt, float currentVolume, float* currentSpec)
     {
         (*it)->Update(dt);
     }
+	skyboxModel.Update(dt);
 
 	// Update current Camera
 	mCamera[mCurrentCamera]->Update(dt);
