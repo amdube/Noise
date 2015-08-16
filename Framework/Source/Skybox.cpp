@@ -69,7 +69,7 @@ Skybox::Skybox() : Model() {
 	   100.0f, -100.0f,  100.0f
 	};
 
-	//Create a vertex array
+	/*//Create a vertex array
 	glGenVertexArrays (1, &mSkyBoxVertexArrayID);
 
 	//Generate and bind the vertex buffer
@@ -84,13 +84,13 @@ Skybox::Skybox() : Model() {
 	skyTextureID = 1;
 	cubeMap("../Assets/Textures/negz.png","../Assets/Textures/posz.png","../Assets/Textures/negy.png", "../Assets/Textures/posy.png",
 			"../Assets/Textures/negx.png", "../Assets/Textures/posx.png", &skyTextureID);
-	
+	*/
 	
 	glGenVertexArrays (1, &mSkyBoxVertexArrayID2);
 	glGenBuffers (1, &mSkyBoxVertexBufferID2);
 	glBindBuffer (GL_ARRAY_BUFFER, mSkyBoxVertexBufferID2);
 	glBufferData (GL_ARRAY_BUFFER, 3 * 36 * sizeof(float), cubeVerticies, GL_STATIC_DRAW);
-	skyTextureID2 = 1000;
+	skyTextureID2 = 1;
 
 	cubeMap("../Assets/Textures/negz2.png","../Assets/Textures/posz.png","../Assets/Textures/negy.png", "../Assets/Textures/posy.png",
 		"../Assets/Textures/negx.png", "../Assets/Textures/posx2.png", &skyTextureID2);
