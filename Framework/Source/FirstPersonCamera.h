@@ -39,5 +39,8 @@ private:
 	float mSpeed;			// World units per second
 	float mAngularSpeed;    // Degrees per pixel
 
+	bool shake;
+
 	glm::vec3 mLookAt;
+	glm::vec3 look;
 };
